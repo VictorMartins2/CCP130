@@ -1,39 +1,41 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-int main (){
-    // Declaração de Variaveis
-    
-    char nome[100];
-    char string[100];
-    int  vogais=0 , consoantes=0;
-  
-    // Abrindo arquivos
 
-    printf("Digite o nome do arquivo que deseja ler:");
-    fgets(nome, 100 , stdin);
 
-    FILE *fp;
-    fp = fopen(nome, "r");
+#define VOWELS "aeiouAEIOU"
+#define CONSONANTS "bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ"
 
-    if(!fp){
-        printf("Erro ao abrir o arquivo %s.", nome);
-        exit(1);
+
+int main () {
+
+    printf("Digite o nome do arquivo: ");
+    char *name; scanf("%s", &name);
+
+    FILE *file = fopen(name, "r");
+
+    if (file == NULL) {
+        printf("Erro ao abrir o arquivo!\n");
+        return 1;
     }
 
-    // Lendo arquivo 
+    char *line = NULL;
+    size_t len = 0;
 
-    while(fscanf(fp,"%c", string) != EOF){
-        printf("%c", string);
-    } 
+    while (getline(&line, &len, file) != -1) {
+        int i = 0;
+        while (line[i] != '\0') {
+            if (strchr(VOWELS, line[i]) != NULL) {
+                printf("%c", 'a');
+            } else if (strchr(CONSONANTS, line[i]) != NULL) {
+                printf("%c", 'b');
+            } else {
+                printf("%c", line[i]);
+            }
+            i++;
+        }
+        printf("\n");
+    }
 
-   
-
-       //Verificando se é vogal 
-
-
-    fclose(fp);
     return 0;
-   }
-
-    
+}
