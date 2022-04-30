@@ -13,7 +13,7 @@ int main () {
     while (1)
     {
         printf("Digite o nome do arquivo: ");
-        char *name[MAX_LENGTH]; scanf("%s", &name);
+        char name[MAX_LENGTH]; scanf("%s", &name);
         int vowels = 0, consonants = 0;
 
         FILE *file = fopen(name, "r");
@@ -37,6 +37,7 @@ int main () {
                 ++i;
             }
         }
+        fclose(file);
 
         printf("Vogais: %d\n", vowels);
         printf("Consoantes: %d\n", consonants);
