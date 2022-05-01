@@ -1,6 +1,0 @@
-numero2 ,12
-numero2 ,13
-numero2 ,14
-numero2 ,15
-numero2 ,17
-numero816 ,18

@@ -4,6 +4,11 @@
     "string": "c",
     "istream": "c",
     "streambuf": "c",
-    "typeinfo": "c"
+    "typeinfo": "c",
+    "Ex1.C": "cpp",
+    "Ex2.C": "cpp",
+    "Ex4.C": "cpp",
+    "Ex5.C": "cpp",
+    "Ex6.C": "cpp"
   }
 }
