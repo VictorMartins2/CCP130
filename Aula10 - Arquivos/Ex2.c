@@ -2,75 +2,69 @@
 #include <stdlib.h>
 #include <string.h>
 
-// Função para contar o numero de linhas de um arquivo
-int contarLinhas(char *nomeArquivo)
-{
-    FILE *arquivo;
-    char linha[100];
-    int contador = 0;
 
-    arquivo = fopen(nomeArquivo, "r");
+int main (){
+	//Gerando arquivos pares.txt.
+	
+	FILE *pares = fopen ("pares.txt", "w");
+	
+	if(pares == NULL)
+	{
+		printf("Erro ao abrir arquivo pares.txt");
+		exit (1);
+	}
+	
+	for (int i=0; i<1001; i++)
+	{
+		if((i%2)==0)
+		{
+			fprintf(pares,"%d\n", i);
+		}
+	}
+		
+	fclose(pares);
+	
+	// Abrindo arquivo somente leitura.
+	
+	pares=fopen ("pares.txt", "r"); 
+	
+	//Gerando arquivos paresinvertido.txt
+	
+	FILE *paresinvertidos = fopen ("paresinvertidos.txt", "w");
+	
+	if(paresinvertidos == NULL)
+	{
+		printf("Erro ao abrir arquivos paresinvertidos.txt");
+		exit (1);	
+	}	
+	
+	
+	//Declarando vetor dinamico, pois não sabemos o tamanho do arquivo 
+	int lines=0;  
+	int numeros[502];
+	char num[100];
+	
+	//contando o numero de linhas do arquivo
+	while(fgets(num,100,pares) != NULL)
+	{
+		lines++;
+		numeros[lines]=atoi(num);
+		
+	}
+	
+	for (int i=lines; i>0; i--)
+	{
+		printf("%d\n", numeros[i]);
+		fprintf(paresinvertidos,"%d\n", numeros[i]);	
+	}
+	
+	printf("\n Quantidade de linhas:%d", lines);
+	
+	
+	// Fechando arquivos.
+	
+	fclose(pares);
+	fclose(paresinvertidos);
 
-    if (arquivo == NULL)
-    {
-        printf("Erro ao abrir o arquivo\n");
-        return 0;
-    }
-
-    while (fgets(linha, 100, arquivo) != NULL)
-    {
-        contador++;
-    }
-
-    fclose(arquivo);
-
-    return contador;
-}
-
-int main()
-{
-    // Gerando arquivos pares.txt
-    FILE *fpares = fopen("pares.txt", "w");
-
-    if (fpares == NULL)
-    {
-        printf("Erro ao abrir arquivo de saída.\n");
-        exit(1);
-    }
-
-    int i;
-    for (i = 0; i < 1000; i++)
-    {
-        if (i % 2 == 0)
-        {
-            fprintf(fpares, "%d\n", i);
-        }
-    }
-
-    // Abrindo arquivo de saída
-
-    FILE *fparesinvertido = fopen("paresinvertido.txt", "w");
-
-    if (fparesinvertido == NULL)
-    {
-        printf("Erro ao abrir arquivo de saída.\n");
-        exit(1);
-    }
-
-    // Gerando arquivos paresinvertido.txt
-
-    int lines = contarLinhas("pares.txt");
-
-    for (i = lines; i > 0; i--)
-    {
-
-        fprintf(fparesinvertido, "%d\n", i);
-    }
-
-    // Fechando arquivos:
-
-    fclose(fparesinvertido);
-    fclose(fpares);
-
-    return 0;
+	return 0;
 }

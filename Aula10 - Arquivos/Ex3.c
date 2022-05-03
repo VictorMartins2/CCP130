@@ -2,96 +2,70 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define FILE_INPUT "numeros3.txt"
-#define FILE_OUTPUT "numeros3unicos.txt"
-#define TRUE 1
-#define FALSE 0
 
-void insert_num(int num)
-{
-    FILE *file = fopen(FILE_OUTPUT, "w");
-    if (file == NULL)
-    {
-        printf("Erro ao abrir arquivo de saída.\n");
-        exit(1);
-    }
+int main (){
+// Declaração de variavéis.	
+	//Alocação dinamica de vetores, pois não sei a quantidade de numeros no arquivo.
+	int *numeros;
+	int *numerosunicos;
+	
+	int lines=0,flag=0, posn=1;//Salva a proxima posição do array numerosunicos.
+	char snum [100];//Utilizado para ler o arquivo.
+	
+	FILE *f_in  = fopen("numeros3.txt" , "r");
+	FILE *f_out = fopen("numeros3unicos.txt", "w+");
+	
 
-    int flag = FALSE;
-    char *line = NULL;
-    size_t len = 0;
-    while (getline(&line, &len, file) != EOF)
-    {
-        if (num != atoi(line))
-        {
-            continue;
-        }
-        else
-        {
-            flag = TRUE;
-            break;
-        }
-    }
-    if (flag)
-    {
-        fprintf(file, "%d\n", num);
-    }
+// Erro ao abrir arquivos.	
+	if(f_in == NULL || f_out == NULL){
+		printf("Erro ao abrir arquivo.");
+		exit(1);
+	}
 
-    fclose(file);
-    return;
-}
+//Armazenando numeros do arquivo em um vetor.
+	//Alocamento dinamico.
 
-void read_file()
-{
-    int lines = countlines(FILE_INPUT);
-    int *numbers;
 
-    numbers = (int *)malloc(lines * sizeof(int));
 
-    FILE *file = fopen(FILE_INPUT, "r");
-    if (file == NULL)
-    {
-        printf("Erro ao abrir arquivo de entrada.\n");
-        exit(1);
-    }
+	
+	  //Contagem Linhas arquivo
+    while(fgets(snum , 100, f_in) != NULL) {
+		lines++;
+	 }
+	 
+	lines--;
+	rewind(f_in); //Volta o file position para o começo do arquivo. 
+	 	
+	numeros=(int*)malloc(lines* sizeof(int));
+	numerosunicos=(int*)malloc(lines* sizeof(int)); 
+	
+	// Armazenando numeros arquivos no vetor.
+	for(int i=0; i<lines ; i++){
+		numeros[i]= atoi(fgets(snum , 100, f_in));
+	} 	
+	 	
 
-    char *line = NULL;
-    size_t len = 0;
-    while (getline(&line, &len, file) != EOF)
-    {
-        numbers[lines] = atoi(line);
-        printf("%d\n", numbers[lines]);
-        insert_num(numbers[lines]);
-        lines--;
-    }
-}
-
-int main()
-{
-    read_file();
-    return 0;
-}
-
-int countlines(char *filename)
-{
-    // count the
-    // number of lines in the file called filename
-    FILE *fp = fopen(filename, "r");
-    int ch = 0;
-    int lines = 0;
-
-    if (fp == NULL)
-    {
-        printf("Error opening file\n");
-        return -1;
-    }
-
-    lines++;
-    while ((ch = fgetc(fp)) != EOF)
-    {
-        if (ch == '\n')
-            lines++;
-    }
-    fclose(fp);
-
-    return lines;
+	// Removendo numeros repetidos:
+	numerosunicos[0]=numeros[0];
+	for (int i=0; i<lines ; i++){
+		for (int j=0; j<posn; j++){
+			if(numeros[i]==numerosunicos[j]){
+				flag=1;
+			}
+			if(j+1 == posn && flag==0){
+				numerosunicos[posn]=numeros[i];
+				posn++;
+			}
+		}
+	flag=0;
+	}
+	
+	// Escrevendo no arquivo. 
+	for (int i=0; i<posn ; i++){
+		fprintf(f_out,"%d\n", numerosunicos[i]);
+	}
+							
+	fclose(f_out);
+	fclose(f_in);
+	return 0;
 }

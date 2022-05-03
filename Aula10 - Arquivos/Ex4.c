@@ -2,48 +2,68 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 #define VOWELS "aeiouAEIOU"
 #define CONSONANTS "bcdfghjklmnpqrstvwxyzBCDFGHJKLMNPQRSTVWXYZ"
-#define MAX_LENGTH 255
 
+int main()
+{
+	char filename[100]; // Nome do arquivo
+	int op = 0;			// Utilizado para digitar novamente o nome do arquivo...
+	int vogais = 0, consoantes = 0;
+	char str[100];
+	FILE *file;
 
-int main () {
+	/*Laço  de repetição para permitir o usuario
+	digitar novamente o nome do arquivo em caso de erro.*/
+	while (1)
+	{
+		printf("Digite o nome do arquivo:\n");
+		scanf("%s", &filename);
+		file = fopen(filename, "r");
 
-    while (1)
-    {
-        printf("Digite o nome do arquivo: ");
-        char name[MAX_LENGTH]; scanf("%s", &name);
-        int vowels = 0, consonants = 0;
+		if (file == NULL)
+		{
+			printf("Erro ao abrir arquivo... digite 1 para tentar novamente:\n");
+			scanf("%d%*c", &op);
 
-        FILE *file = fopen(name, "r");
+			if (op)
+			{
+				continue;
+			}
+			else
+			{
+				break;
+			}
+		}
+		else
+		{
+			break;
+		}
+	}
 
+	// Varrendo o arquivo e contando vogais e consoantes.
 
-        if (file == NULL) {
-            printf("Erro ao abrir o arquivo!\n");
-            continue;
-        }
+	while (fgets(str, 100, file) != NULL)
+	{
+		// printf("%s", str);
+		for (int i = 0; i < strlen(str); i++)
+		{
+			if (strchr(VOWELS, str[i]) != NULL)
+			{
+				vogais++;
+			}
+			else if (strchr(CONSONANTS, str[i]) != NULL)
+			{
+				consoantes++;
+			}
+		}
+	}
 
-        char *line = NULL;
-        size_t len = 0;
-        while (getline(&line, &len, file) != -1) {
-            int i = 0;
-            while (line[i] != '\0') {
-                if (strchr(VOWELS, line[i]) != NULL) {
-                    ++vowels;
-                } else if (strchr(CONSONANTS, line[i]) != NULL) {
-                    ++consonants;
-                }
-                ++i;
-            }
-        }
-        fclose(file);
+	// Exibindo resultados:
+	printf("\nVogais: %d, Consoantes: %d", vogais, consoantes);
 
-        printf("Vogais: %d\n", vowels);
-        printf("Consoantes: %d\n", consonants);
-        break;
-    }
-    
+	// Fechando arquivo,
+	fclose(file);
 
-    return 0;
+	return 0;
 }
