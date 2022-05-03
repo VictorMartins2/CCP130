@@ -4,15 +4,12 @@
 int main()
 {
     // Declaração de Variaveis
-
-    char 
-    nome[100];
+    char nome[100];
     int numero = 0;
 
     // Abrindo arquivos
-
     FILE *fp;
-    fp = fopen("teste.txt", "w");
+    fp = fopen("telefones.txt", "w");
 
     if (!fp)
     {
@@ -24,7 +21,6 @@ int main()
 
     while (1)
     {
-
         printf("Digite o numero:\n");
         scanf("%d%*c", &numero);
         if (numero == 0)
@@ -35,7 +31,7 @@ int main()
         printf("Digite um nome:\n");
         fgets(nome, 100, stdin);
 
-        fprintf(fp, "%s  %d",nome,numero);
+        fprintf(fp, "%d  %s", numero, nome);
     }
 
     // Fechando Arquivos

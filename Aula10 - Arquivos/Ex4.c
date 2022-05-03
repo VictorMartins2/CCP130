@@ -17,8 +17,8 @@ int main()
 	digitar novamente o nome do arquivo em caso de erro.*/
 	while (1)
 	{
-		printf("Digite o nome do arquivo:\n");
-		scanf("%s", &filename);
+		printf("Digite o nome do arquivo que deseja ler:");
+		scanf("%s", filename);
 		file = fopen(filename, "r");
 
 		if (file == NULL)
@@ -60,7 +60,7 @@ int main()
 	}
 
 	// Exibindo resultados:
-	printf("\nVogais: %d, Consoantes: %d", vogais, consoantes);
+	printf(" O arquivo possui %d vogais e %d consoantes", vogais, consoantes);
 
 	// Fechando arquivo,
 	fclose(file);
